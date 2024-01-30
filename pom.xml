@@ -36,23 +36,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-config</artifactId>-->
-<!--		</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config -->
-		
-<!--		<dependency>-->
-<!--		    <groupId>org.springframework.cloud</groupId>-->
-<!--		    <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
-<!--		</dependency>-->
-
-		
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
@@ -88,20 +71,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
-		<!--
-		https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
 		<!--
 		https://mvnrepository.com/artifact/io.springfox/springfox-spring-webflux -->
 		<dependency>
@@ -110,13 +79,6 @@
 			<version>3.0.0</version>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>-->
-<!--				spring-cloud-starter-netflix-hystrix-->
-<!--			</artifactId>-->
-<!--		</dependency>-->
-	
 	<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>

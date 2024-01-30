@@ -15,44 +15,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import spring.boot.webflu.ms.cliente.app.SpringBootWebfluMsClienteApplication;
-import spring.boot.webflu.ms.cliente.app.documents.Client;
-import spring.boot.webflu.ms.cliente.app.documents.TipoCuentaClient;
-import spring.boot.webflu.ms.cliente.app.service.ClienteService;
-import spring.boot.webflu.ms.cliente.app.service.TipoCuentaClienteService;
+import spring.boot.webflu.ms.cliente.app.documents.Customer;
+import spring.boot.webflu.ms.cliente.app.documents.TypeCustomer;
+import spring.boot.webflu.ms.cliente.app.service.CustomerService;
+import spring.boot.webflu.ms.cliente.app.service.TypeCustomerService;
 
 
 
-@RequestMapping("/api/Clientes")
+
+@RequestMapping("/api/Customer")
 @RestController
-public class ClienteControllers {
+public class CustomerControllers {
 
 	@Autowired
-	private ClienteService clientService;
+	private CustomerService clientService;
 
 	@Autowired
-	private TipoCuentaClienteService tipoClienteService;
+	private TypeCustomerService tipoClienteService;
 	
-	private static final Logger log = LoggerFactory.getLogger(ClienteControllers.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomerControllers.class);
 
 	//LISTA TODOS LOS CLIENTES	
 	@GetMapping
-	public Mono<ResponseEntity<Flux<Client>>> findAll() {
+	public Mono<ResponseEntity<Flux<Customer>>> findAll() {
 		
 		log.info("listar clientes");
 		return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(clientService.findAllCliente())
-
+				.body(clientService.findAllCustomer())
 		);
 	}
 	
 	//LISTA CLIENTES POR ID
 	@GetMapping("/{id}")
-	public Mono<ResponseEntity<Client>> viewId(@PathVariable String id) {
-		return clientService.findByIdCliente(id)
+	public Mono<ResponseEntity<Customer>> viewId(@PathVariable String id) {
+		return clientService.findByIdCustomer(id)
 				.map(p -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(p))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
@@ -60,30 +58,30 @@ public class ClienteControllers {
 	
 	//ACTUALIZA CLIENTE POR ID
 	@PutMapping
-	public Mono<Client> updateCliente(@RequestBody Client cliente) {
+	public Mono<Customer> updateCliente(@RequestBody Customer cliente) {
 		System.out.println(cliente.toString());
-		return clientService.saveCliente(cliente);
+		return clientService.saveCustomer(cliente);
 	}
 	
 	
 	//GUARDA CLIENTE VALIDANDO EL TIPO CLIENTE
 	@PostMapping
-	public Mono<Client> guardarCliente(@RequestBody Client cli) {
+	public Mono<Customer> guardarCliente(@RequestBody Customer cli) {
 		
-		System.out.println(cli.getTipoCliente().getIdTipo());
+		System.out.println(cli.getTipoCliente().getId());
 		
-		Mono<TipoCuentaClient> tipo = tipoClienteService.findByIdTipoCliente(cli.getTipoCliente().getIdTipo());
+		Mono<TypeCustomer> tipo = tipoClienteService.findByIdTipoCustomer(cli.getTipoCliente().getId());
 		
 		System.out.println("Tipo de cliente ---> " + tipo.toString());
 		
-		return tipo.defaultIfEmpty(new TipoCuentaClient()).flatMap(c -> {
-			if (c.getIdTipo() == null) {
+		return tipo.defaultIfEmpty(new TypeCustomer()).flatMap(c -> {
+			if (c.getId() == null) {
 				return Mono.error(new InterruptedException("NO EXISTE EL TIPO DE CUENTA CLIENTE"));
 			}
 			return Mono.just(c);
 		}).flatMap(t -> {
 			cli.setTipoCliente(t);
-			return clientService.saveCliente(cli);
+			return clientService.saveCustomer(cli);
 		});
 	}
 
@@ -91,12 +89,24 @@ public class ClienteControllers {
 	@DeleteMapping("/{id}")
 	public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
 		System.out.println("eliminar clientes");
-		return clientService.findByIdCliente(id)
+		return clientService.findByIdCustomer(id)
 				.flatMap(s -> {
-			return clientService.deleteCliente(s).then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)));
+			return clientService.deleteCustomer(s).then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)));
 		}).defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NO_CONTENT));
 	}
 
+	//================================================
+	
+	@GetMapping("/dni/{dni}")
+	public Mono<ResponseEntity<Customer>> listarCLienteDni(@PathVariable String dni) {
+		System.out.println("listarClienteDNI["+dni);
+		return clientService.viewDniCliente(dni)
+				.map(p -> ResponseEntity
+						.ok()
+						.contentType(MediaType.APPLICATION_JSON).body(p))
+				.defaultIfEmpty(ResponseEntity.notFound().build());		
+	}
+	
 }
 
 

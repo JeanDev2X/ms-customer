@@ -9,15 +9,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Document(collection = "TipoCliente")
+@Document(collection = "TypeCustomer")
 public class TypeCustomer {
 
-	private String idTipo;
+	private String id;
 	@NotEmpty
 	private String descripcion;
 	
-	public TypeCustomer(String idTipo,String descripcion) {
-		this.idTipo = idTipo;
+	public TypeCustomer(String id,String descripcion) {
+		this.id = id;
 		this.descripcion = descripcion;
 	}
 

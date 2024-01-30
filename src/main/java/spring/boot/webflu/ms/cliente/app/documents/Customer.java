@@ -4,6 +4,8 @@ package spring.boot.webflu.ms.cliente.app.documents;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +19,7 @@ public class Customer {
 	@NotEmpty
 	private String id;
 	@NotEmpty
+	@Field(name="dni")
 	private String numdoc; //numero de documento - dni
 	@NotEmpty
 	private String nombres; //razon social - descripcion
@@ -31,15 +34,15 @@ public class Customer {
 	@NotEmpty
 	private String correo;
 	@NotEmpty
-	private TipoCuentaClient tipoCliente;	
+	private TypeCustomer tipoCliente;	
 	@NotEmpty
 	private String codigoBanco;
 	
 	public Customer(String numdoc,String nombres,
-			TipoCuentaClient tipoCliente,String codigoBanco) {
+			TypeCustomer personal,String codigoBanco) {
 		this.numdoc = numdoc;
 		this.nombres = nombres;
-		this.tipoCliente = tipoCliente;
+		this.tipoCliente = personal;
 		this.codigoBanco = codigoBanco;
 	}
 
