@@ -12,19 +12,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 import reactor.core.publisher.Flux;
-import spring.boot.webflu.ms.cliente.app.documents.Client;
-import spring.boot.webflu.ms.cliente.app.documents.TipoCuentaClient;
-import spring.boot.webflu.ms.cliente.app.service.ClienteService;
-import spring.boot.webflu.ms.cliente.app.service.TipoCuentaClienteService;
+import spring.boot.webflu.ms.cliente.app.documents.Customer;
+import spring.boot.webflu.ms.cliente.app.documents.TypeCustomer;
+import spring.boot.webflu.ms.cliente.app.service.CustomerService;
+import spring.boot.webflu.ms.cliente.app.service.TypeCustomerService;
 
 @SpringBootApplication
 public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 	
 	@Autowired
-	private ClienteService serviceCliente;
+	private CustomerService serviceCliente;
 	
 	@Autowired
-	private TipoCuentaClienteService serviceTipoCliente;
+	private TypeCustomerService serviceTipoCliente;
 	
 	@Autowired
 	private ReactiveMongoTemplate mongoTemplate;
@@ -38,27 +38,30 @@ public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		mongoTemplate.dropCollection("Clientes").subscribe();
-		mongoTemplate.dropCollection("TipoCliente").subscribe();
+		mongoTemplate.dropCollection("Customer").subscribe();
+		mongoTemplate.dropCollection("TypeCustomer").subscribe();
 		
-		TipoCuentaClient personal = new TipoCuentaClient("1","personal");
-		TipoCuentaClient empresa = new TipoCuentaClient("2","empresa");
+//		TipoCuentaClient personal = new TipoCuentaClient("1","personal");
+//		TipoCuentaClient empresa = new TipoCuentaClient("2","empresa");
+		
+		TypeCustomer personal = new TypeCustomer("1","personal");
+		TypeCustomer empresa = new TypeCustomer("2","empresa");
 		
 		//
 		Flux.just(personal,empresa)
-		.flatMap(serviceTipoCliente::saveTipoCliente)
+		.flatMap(serviceTipoCliente::saveTipoCustomer)
 		.doOnNext(c -> {
-			log.info("Tipo cliente creado: " +  c.getDescripcion() + ", Id: " + c.getIdTipo());
+			log.info("Tipo cliente creado: " +  c.getDescripcion() + ", Id: " + c.getId());
 		}).thenMany(					
 				Flux.just(
-						new Client("47305710","JUAN CARLOS",personal,"bcp"),
-						new Client("47305711","ESMERALDA CORP",empresa,"bcp"),
-						new Client("07091424","LUIS RAMIREZ",personal,"bcp")
+						new Customer("47305710","JUAN CARLOS",personal,"bcp"),
+						new Customer("47305711","ESMERALDA CORP",empresa,"bcp"),
+						new Customer("07091424","LUIS RAMIREZ",personal,"bcp")
 						)					
-					.flatMap(client -> {
-						return serviceCliente.saveCliente(client);
+					.flatMap(customer -> {
+						return serviceCliente.saveCustomer(customer);
 					})					
-				).subscribe(client -> log.info("Insert: " + client.getId() + " " + client.getNombres()));
+				).subscribe(customer -> log.info("Insert: " + customer.getId() + " " + customer.getNombres()));
 		
 	}
 
