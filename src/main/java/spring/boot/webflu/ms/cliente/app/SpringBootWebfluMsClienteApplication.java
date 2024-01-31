@@ -46,6 +46,8 @@ public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 		
 		TypeCustomer personal = new TypeCustomer("1","personal");
 		TypeCustomer empresa = new TypeCustomer("2","empresa");
+		TypeCustomer personal_vip = new TypeCustomer("3","personal_vip");
+		TypeCustomer empresa_pyme = new TypeCustomer("4","empresa_pyme");
 		
 		//
 		Flux.just(personal,empresa)
@@ -56,7 +58,9 @@ public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 				Flux.just(
 						new Customer("47305710","JUAN CARLOS",personal,"bcp"),
 						new Customer("47305711","ESMERALDA CORP",empresa,"bcp"),
-						new Customer("07091424","LUIS RAMIREZ",personal,"bcp")
+						new Customer("07091424","LUIS RAMIREZ",personal,"bcp"),
+						new Customer("07091424","ELON MOSK",personal_vip,"bcp"),
+						new Customer("07091424","CAROLINA CASTRO",empresa_pyme,"bcp")
 						)					
 					.flatMap(customer -> {
 						return serviceCliente.saveCustomer(customer);
