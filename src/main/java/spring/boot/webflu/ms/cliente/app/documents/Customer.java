@@ -18,8 +18,7 @@ public class Customer {
 	@Id
 	@NotEmpty
 	private String id;
-	@NotEmpty
-	@Field(name="dni")
+	@NotEmpty	
 	private String numdoc; //numero de documento - dni
 	@NotEmpty
 	private String nombres; //razon social - descripcion
