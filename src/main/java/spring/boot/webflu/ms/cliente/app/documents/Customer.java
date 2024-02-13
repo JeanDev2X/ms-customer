@@ -33,15 +33,19 @@ public class Customer {
 	@NotEmpty
 	private String correo;
 	@NotEmpty
-	private TypeCustomer tipoCliente;	
+	private TypeCustomer tipoCliente;
+	
+	@NotEmpty
+	private boolean isCredito;
 	@NotEmpty
 	private String codigoBanco;
 	
 	public Customer(String numdoc,String nombres,
-			TypeCustomer personal,String codigoBanco) {
+			TypeCustomer personal,boolean isCredito,String codigoBanco) {
 		this.numdoc = numdoc;
 		this.nombres = nombres;
 		this.tipoCliente = personal;
+		this.isCredito = isCredito;
 		this.codigoBanco = codigoBanco;
 	}
 
