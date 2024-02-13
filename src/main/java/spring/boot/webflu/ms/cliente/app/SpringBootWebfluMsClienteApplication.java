@@ -56,11 +56,12 @@ public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 			log.info("Tipo cliente creado: " +  c.getDescripcion() + ", Id: " + c.getId());
 		}).thenMany(					
 				Flux.just(
-						new Customer("47305710","JUAN CARLOS",personal,"bcp"),
-						new Customer("47305711","ESMERALDA CORP",empresa,"bcp"),
-						new Customer("07091424","LUIS RAMIREZ",personal,"bcp"),
-						new Customer("07091424","ELON MOSK",personal_vip,"bcp"),
-						new Customer("07091424","CAROLINA CASTRO",empresa_pyme,"bcp")
+						new Customer("47305710","JUAN CARLOS",personal,true,"bcp"),
+						new Customer("47305711","ESMERALDA CORP",empresa,true,"bcp"),
+						new Customer("47305712","LUIS RAMIREZ",personal,true,"bcp"),
+						new Customer("47305713","ELON MOSK",personal_vip,true,"bcp"),
+						new Customer("99091450","CAROLINA CASTRO",empresa_pyme,true,"bcp"),
+						new Customer("99091440","KELY VILETA",empresa_pyme,false,"bcp")
 						)					
 					.flatMap(customer -> {
 						return serviceCliente.saveCustomer(customer);
