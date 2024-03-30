@@ -22,9 +22,6 @@ import spring.boot.webflu.ms.cliente.app.documents.TypeCustomer;
 import spring.boot.webflu.ms.cliente.app.service.CustomerService;
 import spring.boot.webflu.ms.cliente.app.service.TypeCustomerService;
 
-
-
-
 @RequestMapping("/api/Customer")
 @RestController
 public class CustomerControllers {
@@ -67,12 +64,10 @@ public class CustomerControllers {
 	//GUARDA CLIENTE VALIDANDO EL TIPO CLIENTE
 	@PostMapping
 	public Mono<Customer> guardarCliente(@RequestBody Customer cli) {
-		
-		System.out.println(cli.getTipoCliente().getId());
+		log.info("CLIENTE==>"+cli);	
 		
 		Mono<TypeCustomer> tipo = tipoClienteService.findByIdTipoCustomer(cli.getTipoCliente().getId());
-		
-		System.out.println("Tipo de cliente ---> " + tipo.toString());
+		log.info("TIPO-CLIENTE==>"+tipo);	
 		
 		return tipo.defaultIfEmpty(new TypeCustomer()).flatMap(c -> {
 			if (c.getId() == null) {
