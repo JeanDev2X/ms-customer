@@ -2,16 +2,18 @@ package spring.boot.webflu.ms.cliente.app.documents;
 
 
 import javax.validation.constraints.NotEmpty;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 //clase de la collection CLIENTES y su tipo de cliente
 @Getter
 @Setter
+@ToString
 @Document(collection ="Customer")
 public class Customer {
 	
@@ -41,10 +43,11 @@ public class Customer {
 	private String codigoBanco;
 	
 	public Customer(String numdoc,String nombres,
-			TypeCustomer personal,boolean isCredito,String codigoBanco) {
+			TypeCustomer personal,String telefono,boolean isCredito,String codigoBanco) {
 		this.numdoc = numdoc;
 		this.nombres = nombres;
 		this.tipoCliente = personal;
+		this.telefono = telefono;
 		this.isCredito = isCredito;
 		this.codigoBanco = codigoBanco;
 	}
