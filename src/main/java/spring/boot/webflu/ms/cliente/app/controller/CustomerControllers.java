@@ -66,18 +66,13 @@ public class CustomerControllers {
 	public Mono<Customer> guardarCliente(@RequestBody Customer cli) {
 		log.info("CLIENTE==>"+cli);	
 		
-		Mono<TypeCustomer> tipo = tipoClienteService.findByIdTipoCustomer(cli.getTipoCliente().getId());
-		log.info("TIPO-CLIENTE==>"+tipo);	
+		return tipoClienteService.findByIdTipoCustomer(cli.getTipoCliente().getId())
+	            .switchIfEmpty(Mono.error(new InterruptedException("NO EXISTE EL TIPO DE CUENTA CLIENTE")))
+	            .flatMap(tipoCliente -> {
+	                cli.setTipoCliente(tipoCliente);
+	                return clientService.saveCustomer(cli);
+	            });
 		
-		return tipo.defaultIfEmpty(new TypeCustomer()).flatMap(c -> {
-			if (c.getId() == null) {
-				return Mono.error(new InterruptedException("NO EXISTE EL TIPO DE CUENTA CLIENTE"));
-			}
-			return Mono.just(c);
-		}).flatMap(t -> {
-			cli.setTipoCliente(t);
-			return clientService.saveCustomer(cli);
-		});
 	}
 
 	//ELIMINA CLIENTE POR ID
