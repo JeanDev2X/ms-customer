@@ -61,7 +61,8 @@ public class SpringBootWebfluMsClienteApplication implements CommandLineRunner{
 						new Customer("47305712","LUIS RAMIREZ",personal,"963791420",true,"bcp"),
 						new Customer("47305713","ELON MOSK",personal_vip,"963791445",true,"bcp"),
 						new Customer("99091450","JOHANA RODRIGUEZ",empresa_pyme,"",true,"bcp"),
-						new Customer("99091440","KELY VILETA",empresa_pyme,"",false,"bcp")
+						new Customer("99091440","KELY VILETA",empresa_pyme,"",false,"bcp"),
+						new Customer("99091499","MABEL KG",personal,"",true,"bcp")
 						)					
 					.flatMap(customer -> {
 						return serviceCliente.saveCustomer(customer);
