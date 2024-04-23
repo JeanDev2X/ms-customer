@@ -31,7 +31,7 @@ public class TypeAccountCustomerControllers {
 		return Mono.just(
 				ResponseEntity
 				.ok()
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON)
 				.body(tipoClienteService.findAllTipoCustomer())
 				);
 	}
